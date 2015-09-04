@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VRF-oe-uKF" customClass="ExternalDocumentTagCell" customModule="BounceAnimation" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="62" height="27"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="62" height="27"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iBL-cm-w6I">
+                        <rect key="frame" x="0.0" y="0.0" width="62" height="27"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QMU-S6-d1p">
+                                <rect key="frame" x="10" y="3" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="216" id="rNg-Ag-hGx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.71999999999999997" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QMU-S6-d1p" firstAttribute="top" secondItem="iBL-cm-w6I" secondAttribute="top" constant="3" id="K9o-fr-gBS"/>
+                            <constraint firstAttribute="centerX" secondItem="QMU-S6-d1p" secondAttribute="centerX" id="OEs-9t-HC0"/>
+                            <constraint firstAttribute="centerY" secondItem="QMU-S6-d1p" secondAttribute="centerY" id="hkn-tm-nv1"/>
+                            <constraint firstItem="QMU-S6-d1p" firstAttribute="leading" secondItem="iBL-cm-w6I" secondAttribute="leading" constant="10" id="m3l-D7-HBo"/>
+                            <constraint firstAttribute="trailing" secondItem="QMU-S6-d1p" secondAttribute="trailing" constant="10" id="qOJ-Te-aXd"/>
+                            <constraint firstAttribute="bottom" secondItem="QMU-S6-d1p" secondAttribute="bottom" constant="3" id="u4z-Go-Ls8"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="iBL-cm-w6I" firstAttribute="top" secondItem="VRF-oe-uKF" secondAttribute="top" id="CjH-Ea-ldT"/>
+                <constraint firstItem="iBL-cm-w6I" firstAttribute="leading" secondItem="VRF-oe-uKF" secondAttribute="leading" id="H8a-hq-NmA"/>
+                <constraint firstAttribute="trailing" secondItem="iBL-cm-w6I" secondAttribute="trailing" id="bOQ-Im-VjU"/>
+                <constraint firstAttribute="bottom" secondItem="iBL-cm-w6I" secondAttribute="bottom" id="i6F-ds-S3B"/>
+            </constraints>
+            <size key="customSize" width="305" height="50"/>
+            <connections>
+                <outlet property="back" destination="iBL-cm-w6I" id="eBc-SS-Nmn"/>
+                <outlet property="label" destination="QMU-S6-d1p" id="MAS-NP-snr"/>
+            </connections>
+            <point key="canvasLocation" x="608.5" y="301"/>
+        </collectionViewCell>
+    </objects>
+</document>

@@ -1,0 +1,23 @@
+{
+    "fonts": {
+   },
+    "colors": {
+        
+        /* цвет шапки в календаре */
+        "kAppearanceColorDesktopCalendarMonthYear": "rgba(55, 155, 31, 255)",
+        
+        /* цвет теста месяц и год в календаре */
+        "kAppearanceColorDesktopCalendarTextMonthYear": "rgba(240, 240, 240, 255)",
+        
+        
+   },
+    "constants" : {
+        "kAppearanceConstantVoteAutoProcess": 1,
+        /* после голосования переходим в повестку заседания - прямой эфир */
+        "kAppearanceConstantVoteProcessToMeetingAfterAccept": 1,
+        /* подтверждение голосования только одним окном с проектами решения (без следующего за ним алерта) */
+        "kAppearanceConstantVoteSecondAcceptDisabled": 1,
+        /* скрываем календарь на новом рабочем столе */
+        "kAppearanceConstantDesktopHideCalendar": 1,
+   },
+}
