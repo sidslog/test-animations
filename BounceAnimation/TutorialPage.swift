@@ -12,14 +12,22 @@ enum ViewHighlightType {
     case Round, Rect
 }
 
+enum ViewHighlightArrowPosition {
+    case Up, Right, Down, Left
+}
+
 class ViewHighlight {
     weak var view: UIView?;
     
     let highlightType: ViewHighlightType;
-    let message: String?;
+    let message: String!;
     var inset: CGFloat = 10;
     
-    init(view: UIView, highlightType: ViewHighlightType, message: String? = nil) {
+    var arrowPosition = ViewHighlightArrowPosition.Down
+    var font = UIFont.systemFontOfSize(UIFont.labelFontSize())
+    var textColor = UIColor.blackColor()
+    
+    init(view: UIView, highlightType: ViewHighlightType, message: String = "") {
         self.view = view;
         self.highlightType = highlightType;
         self.message = message;
@@ -68,6 +76,8 @@ class TutorialPageAnimator: UIViewController {
         
         let paths = self.createPaths();
         self.attachPaths(paths, background: background);
+        
+        self.addTextViews(background)
     }
     
     func dismiss() {
@@ -76,6 +86,20 @@ class TutorialPageAnimator: UIViewController {
     
     // MARK: private
 
+    private func addTextViews(background: TutorialMaskView) {
+        for hView in viewsToHighlight {
+            if let view = hView.view {
+                var rect = view.convertRect(view.bounds, toView: self.backgroundView);
+                rect.insetInPlace(dx: -hView.inset, dy: -hView.inset);
+                
+                let textBack = TutorialTextBubble(text: hView.message)
+                textBack.font = hView.font
+                textBack.textColor = hView.textColor
+                textBack.attachToSuperView(background, arrowPosition: hView.arrowPosition, rect: rect)
+            }
+        }
+    }
+    
     private func createPaths() -> [TutorialLightPath] {
         var paths = [TutorialLightPath]()
         for hView in viewsToHighlight {
@@ -83,9 +107,9 @@ class TutorialPageAnimator: UIViewController {
                 var rect = view.convertRect(view.bounds, toView: self.backgroundView);
                 rect.insetInPlace(dx: -hView.inset, dy: -hView.inset);
                 if hView.highlightType == .Round {
-                    paths.append(TutorialLightPath(ovalPath: rect));
+                    paths.append(TutorialLightPath(oval: rect, arrowPosition: hView.arrowPosition));
                 } else {
-                    paths.append(TutorialLightPath(rectPath: rect));
+                    paths.append(TutorialLightPath(rect: rect, arrowPosition: hView.arrowPosition));
                 }
             }
         }
@@ -101,7 +125,6 @@ class TutorialPageAnimator: UIViewController {
     
     private func attachPaths(paths: [TutorialLightPath], background: TutorialMaskView) {
         background.paths = paths;
-        background.setNeedsDisplay();
     }
     
     private func attachBackground(background: TutorialMaskView) {

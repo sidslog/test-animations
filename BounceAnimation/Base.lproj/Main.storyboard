@@ -35,6 +35,10 @@
                                     <constraint firstAttribute="height" constant="84" id="vb3-U1-Nw8"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Xm-Z8-qCb">
+                                <rect key="frame" x="156" y="236" width="85" height="128"/>
+                                <color key="backgroundColor" white="0.23866673519736842" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -43,11 +47,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="secondToHighlight" destination="5Xm-Z8-qCb" id="FQx-Xj-vgH"/>
                         <outlet property="toHighlight" destination="xU6-ik-hGe" id="Rst-W9-0JK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="261" y="347"/>
         </scene>
     </scenes>
 </document>

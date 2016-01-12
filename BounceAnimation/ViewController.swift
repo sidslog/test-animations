@@ -15,18 +15,19 @@ class ViewController: UIViewController {
     var presented = false;
     
     @IBOutlet weak var toHighlight: UIView!
+    @IBOutlet weak var secondToHighlight: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let startPoint = CGPointMake(0, 0);
-        let endPoint = CGPointMake(100, 100);
-        let angle = M_PI_4 / 2;
-        
-        let arrowHead = ArrowHead(angle: angle, length: 20.0)
-        let arrow = Arrow(startPoint: startPoint, endPoint: endPoint, arrowHead: arrowHead);
-        
-        let arrowView = ArrowView(arrow: arrow, frame: CGRectMake(0, 0, 100, 100));
-        self.view.addSubview(arrowView);
+//        let startPoint = CGPointMake(0, 0);
+//        let endPoint = CGPointMake(100, 100);
+//        let angle = M_PI_4 / 2;
+//        
+//        let arrowHead = ArrowHead(angle: angle, length: 20.0)
+//        let arrow = Arrow(startPoint: startPoint, endPoint: endPoint, arrowHead: arrowHead);
+//        
+//        let arrowView = ArrowView(arrow: arrow, frame: CGRectMake(0, 0, 100, 100));
+//        self.view.addSubview(arrowView);
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,20 +38,26 @@ class ViewController: UIViewController {
     @IBAction func onButton(sender: AnyObject) {
         
         
-//        var highlights = [ViewHighlight(view: self.toHighlight, highlightType: ViewHighlightType.Rect)];
-//        let ctrl = TutorialPageAnimator(backgroundView: self.view, viewsToHighlight: highlights);
-//        ctrl.present(self);
+        let highlight = ViewHighlight(view: self.toHighlight, highlightType: ViewHighlightType.Rect, message: "123 ashgjhasd jhag djhagsdjasg djhags hjdgasjdga jdg asjhgdjhag d")
+        highlight.arrowPosition = .Right;
+        
+        let highlight2 = ViewHighlight(view: self.secondToHighlight, highlightType: ViewHighlightType.Round, message: " ahjkfh sdjfhksdf hkjdsfhkshfkdsjhf sdhf ksdhfk ahskdjh asdhaskd ashjkd askjd asdhjsadh sadhsadjsah dhkjdsfhkshfkdsjhf sdhf ksdhfk ahskdjh asdhaskd ashjkd askjd asdhjsadh sadhsadjsah dhkjdsfhkshfkdsjhf sdhf ksdhfk ahskdjh asdhaskd ashjkd askjd asdhjsadh sadhsadjsah d")
+        highlight2.arrowPosition = .Down;
+        highlight2.inset = 50
+        let highlights = [highlight, highlight2];
+        let ctrl = TutorialPageAnimator(backgroundView: self.view, viewsToHighlight: highlights);
+        ctrl.present(self);
         
 
 //        let ctrl = CategoryTags(nibName: "CategoryTags", bundle: NSBundle.mainBundle());
 //        self.presentViewController(ctrl, animated: true, completion: nil);
         
         
-        let ctrl = SlideViewController();
-        ctrl.view.backgroundColor = UIColor.whiteColor();
-        ctrl.scaleMultiplier = 0.95;
-        ctrl.intersectWidth = 40;
-        self.presentViewController(ctrl, animated: true, completion: nil);
+//        let ctrl = SlideViewController();
+//        ctrl.view.backgroundColor = UIColor.whiteColor();
+//        ctrl.scaleMultiplier = 0.95;
+//        ctrl.intersectWidth = 40;
+//        self.presentViewController(ctrl, animated: true, completion: nil);
 //
         
         

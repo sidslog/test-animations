@@ -30,6 +30,7 @@
 		3BB775AC1B7E2BEF00496B95 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB775AA1B7E2BEE00496B95 /* CardViewController.swift */; };
 		3BB775AD1B7E2BEF00496B95 /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BB775AB1B7E2BEF00496B95 /* CardViewController.xib */; };
 		3BDD283C1B7C8FAC00321168 /* BounceTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDD283B1B7C8FAC00321168 /* BounceTransitionAnimator.swift */; };
+		3BF8F1C01C454190007E9791 /* TutorialTextBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF8F1BF1C454190007E9791 /* TutorialTextBubble.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		3BB775AA1B7E2BEE00496B95 /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		3BB775AB1B7E2BEF00496B95 /* CardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
 		3BDD283B1B7C8FAC00321168 /* BounceTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceTransitionAnimator.swift; sourceTree = "<group>"; };
+		3BF8F1BF1C454190007E9791 /* TutorialTextBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialTextBubble.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				3BB775AB1B7E2BEF00496B95 /* CardViewController.xib */,
 				3B4E7D261B84B7FD00FB1A6D /* TutorialPage.swift */,
 				3B4E7D281B84BD5A00FB1A6D /* TutorialMaskView.swift */,
+				3BF8F1BF1C454190007E9791 /* TutorialTextBubble.swift */,
 				3B4E7D591B8DB4DE00FB1A6D /* ArrowView.swift */,
 				3B4E7D5B1B8DBD8800FB1A6D /* MyPlayground.playground */,
 				3B4E7D5C1B8DE67100FB1A6D /* CategoryTags.swift */,
@@ -273,6 +276,7 @@
 			files = (
 				3B4E7D621B8DE75800FB1A6D /* ExternalDocumentTagCell.swift in Sources */,
 				3B4E7D5E1B8DE67100FB1A6D /* CategoryTags.swift in Sources */,
+				3BF8F1C01C454190007E9791 /* TutorialTextBubble.swift in Sources */,
 				3B69219E1B7A2C8F00E5DA38 /* ViewController.swift in Sources */,
 				3BB775A81B7E2BE400496B95 /* SlideViewController.swift in Sources */,
 				3B817C461B8E117000E88558 /* TagSearchHeaderCell.swift in Sources */,
