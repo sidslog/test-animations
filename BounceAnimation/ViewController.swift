@@ -42,16 +42,16 @@ class ViewController: UIViewController {
 //        ctrl.present(self);
         
 
-        let ctrl = CategoryTags(nibName: "CategoryTags", bundle: NSBundle.mainBundle());
-        self.presentViewController(ctrl, animated: true, completion: nil);
-        
-        
-//        let ctrl = SlideViewController();
-//        ctrl.view.backgroundColor = UIColor.whiteColor();
-//        ctrl.scaleMultiplier = 0.95;
-//        ctrl.intersectWidth = 40;
+//        let ctrl = CategoryTags(nibName: "CategoryTags", bundle: NSBundle.mainBundle());
 //        self.presentViewController(ctrl, animated: true, completion: nil);
-//        
+        
+        
+        let ctrl = SlideViewController();
+        ctrl.view.backgroundColor = UIColor.whiteColor();
+        ctrl.scaleMultiplier = 0.95;
+        ctrl.intersectWidth = 40;
+        self.presentViewController(ctrl, animated: true, completion: nil);
+//
         
         
         
@@ -80,16 +80,13 @@ class ViewController: UIViewController {
         
         parent.view.addSubview(child.view);
         
-        var constraints = [NSLayoutConstraint]()
-        let views = ["view":child.view] as [NSObject: AnyObject];
+        let views = ["view":child.view] as [String: AnyObject];
         
-        let horizontal = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options:NSLayoutFormatOptions.allZeros, metrics:nil, views:views);
-        let vertical = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|", options:NSLayoutFormatOptions.allZeros, metrics:nil, views:views);
+        let horizontal = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options:NSLayoutFormatOptions(), metrics:nil, views:views);
+        let vertical = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|", options:NSLayoutFormatOptions(), metrics:nil, views:views);
         
         parent.view.addConstraints(horizontal);
         parent.view.addConstraints(vertical);
-
-        parent.view.addConstraints(constraints);
         
         parent.addChildViewController(child);
         

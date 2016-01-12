@@ -39,7 +39,7 @@ class TutorialMaskView: UIView {
         
         CGContextClearRect(ctx, rect);
         
-        var path = CGPathCreateMutable();
+        let path = CGPathCreateMutable();
         
         CGPathAddRect(path, nil, rect);
 

@@ -47,7 +47,7 @@ class TutorialPageAnimator: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.setTranslatesAutoresizingMaskIntoConstraints(false);
+        self.view.translatesAutoresizingMaskIntoConstraints = false;
         self.view.backgroundColor = UIColor.clearColor();
         
     }
@@ -81,7 +81,7 @@ class TutorialPageAnimator: UIViewController {
         for hView in viewsToHighlight {
             if let view = hView.view {
                 var rect = view.convertRect(view.bounds, toView: self.backgroundView);
-                rect.inset(dx: -hView.inset, dy: -hView.inset);
+                rect.insetInPlace(dx: -hView.inset, dy: -hView.inset);
                 if hView.highlightType == .Round {
                     paths.append(TutorialLightPath(ovalPath: rect));
                 } else {
@@ -94,7 +94,7 @@ class TutorialPageAnimator: UIViewController {
     
     private func createBackground() -> TutorialMaskView {
         let view = TutorialMaskView();
-        view.setTranslatesAutoresizingMaskIntoConstraints(false);
+        view.translatesAutoresizingMaskIntoConstraints = false;
         view.backgroundColor = UIColor.clearColor();
         return view;
     }
@@ -106,12 +106,11 @@ class TutorialPageAnimator: UIViewController {
     
     private func attachBackground(background: TutorialMaskView) {
         self.view.addSubview(background);
-        var constraints = [NSLayoutConstraint]()
         
-        let views = ["view":background] as [NSObject: AnyObject];
+        let views = ["view":background] as [String: AnyObject];
         
-        let horizontal = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options:NSLayoutFormatOptions.allZeros, metrics:nil, views:views);
-        let vertical = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|", options:NSLayoutFormatOptions.allZeros, metrics:nil, views:views);
+        let horizontal = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options:NSLayoutFormatOptions(), metrics:nil, views:views);
+        let vertical = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|", options:NSLayoutFormatOptions(), metrics:nil, views:views);
         
         self.view.addConstraints(horizontal);
         self.view.addConstraints(vertical);

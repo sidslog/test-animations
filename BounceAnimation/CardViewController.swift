@@ -18,7 +18,7 @@ class Card: NSObject {
 
 @objc class TestView: UIView {
     deinit {
-        println("deinit!!!");
+        print("deinit!!!");
     }
 }
 
@@ -30,7 +30,7 @@ class CardViewController: UIViewController {
     
     
     deinit {
-        println("vc deinit");
+        print("vc deinit");
     }
     
     init(card: Card) {
@@ -44,7 +44,7 @@ class CardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.setTranslatesAutoresizingMaskIntoConstraints(false);
+        self.view.translatesAutoresizingMaskIntoConstraints = false;
         
         self.nameLabel.text = card.name;
         

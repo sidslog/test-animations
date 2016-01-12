@@ -70,7 +70,7 @@ class SlideViewController: UIViewController {
         }
         
         self.currentIndex = 1;
-        
+
         self.delegate = self;
         
         self.panRecognizer = UIPanGestureRecognizer(target: self, action: "onPan:");
@@ -113,13 +113,13 @@ class SlideViewController: UIViewController {
             // if we insert view controller in visible area
             if index == self.currentIndex + 2 {
                 // rightright
-                if let viewController = self.delegate?.viewControllerForIndex(index) {
+                if let _ = self.delegate?.viewControllerForIndex(index) {
                     self.removeControllerFromParent(self.rightRightViewController);
                     self.drawViews()
                 }
             } else if index == self.currentIndex - 1 {
                 // leftleft
-                if let viewController = self.delegate?.viewControllerForIndex(index) {
+                if let _ = self.delegate?.viewControllerForIndex(index) {
                     self.removeControllerFromParent(self.leftLeftViewController);
                     self.currentIndex++;
                     self.drawViews();
@@ -193,13 +193,13 @@ class SlideViewController: UIViewController {
     // MARK: gesture recognizers methods
     
     func onPan(recognizer: UIPanGestureRecognizer) {
-        if let view = recognizer.view {
+        if let _ = recognizer.view {
             switch(recognizer.state) {
             case .Began:
                 self.originX = recognizer.locationInView(self.view).x;
                 break;
             case .Changed:
-                var dx = recognizer.locationInView(self.view).x - self.originX;
+                let dx = recognizer.locationInView(self.view).x - self.originX;
                 self.applyTransform(dx, level: .LeftLeft, view: self.leftLeftView);
                 self.applyTransform(dx, level: .Left, view: self.leftView);
                 self.applyTransform(dx, level: .Right, view: self.rightView);
@@ -207,7 +207,7 @@ class SlideViewController: UIViewController {
                 self.applyTransform(dx, level: .Center, view: self.centerView);
                 break;
             case .Ended:
-                var dx = recognizer.locationInView(self.view).x - self.originX;
+                let dx = recognizer.locationInView(self.view).x - self.originX;
                 self.endTransition(dx);
                 break;
                 
@@ -319,12 +319,10 @@ class SlideViewController: UIViewController {
     }
     
     private func addConstraintsForView(view: UIView, level: ViewLevel) {
-        var constraints = [NSLayoutConstraint]()
+        let views = ["view":view] as [String: AnyObject];
         
-        let views = ["view":view] as [NSObject: AnyObject];
-        
-        let horizontal = NSLayoutConstraint.constraintsWithVisualFormat("H:|-\(self.edgeInsets.left)-[view]-\(self.edgeInsets.right)-|", options:NSLayoutFormatOptions.allZeros, metrics:nil, views:views);
-        let vertical = NSLayoutConstraint.constraintsWithVisualFormat("V:|-\(self.edgeInsets.top)-[view]-\(self.edgeInsets.bottom)-|", options:NSLayoutFormatOptions.allZeros, metrics:nil, views:views);
+        let horizontal = NSLayoutConstraint.constraintsWithVisualFormat("H:|-\(self.edgeInsets.left)-[view]-\(self.edgeInsets.right)-|", options:NSLayoutFormatOptions(), metrics:nil, views:views);
+        let vertical = NSLayoutConstraint.constraintsWithVisualFormat("V:|-\(self.edgeInsets.top)-[view]-\(self.edgeInsets.bottom)-|", options:NSLayoutFormatOptions(), metrics:nil, views:views);
 
         view.superview!.addConstraints(horizontal);
         view.superview!.addConstraints(vertical);
@@ -334,18 +332,18 @@ class SlideViewController: UIViewController {
     private func defaultTranslate(level: ViewLevel) -> CGAffineTransform {
         switch(level) {
         case .LeftLeft:
-            var transform = CGAffineTransformMakeTranslation(-self.view.bounds.size.width * 2 + self.intersectWidth * 2, 0);
+            let transform = CGAffineTransformMakeTranslation(-self.view.bounds.size.width * 2 + self.intersectWidth * 2, 0);
             return transform;
         case .Left:
-            var transform = CGAffineTransformMakeTranslation(-self.view.bounds.size.width + self.intersectWidth, 0);
+            let transform = CGAffineTransformMakeTranslation(-self.view.bounds.size.width + self.intersectWidth, 0);
             return transform;
         case .Center:
             return CGAffineTransformIdentity;
         case .Right:
-            var transform = CGAffineTransformMakeTranslation(self.view.bounds.size.width - self.intersectWidth, 0);
+            let transform = CGAffineTransformMakeTranslation(self.view.bounds.size.width - self.intersectWidth, 0);
             return transform;
         case .RightRight:
-            var transform = CGAffineTransformMakeTranslation(self.view.bounds.size.width * 2 - self.intersectWidth * 2, 0);
+            let transform = CGAffineTransformMakeTranslation(self.view.bounds.size.width * 2 - self.intersectWidth * 2, 0);
             return transform;
         }
 

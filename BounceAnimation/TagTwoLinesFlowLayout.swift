@@ -22,62 +22,64 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject] {
-        let attributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes];
-        
-        let sortedAttributes = sorted(attributes, { (obj1, obj2) -> Bool in
-            if obj1.indexPath.section == obj2.indexPath.section {
-                return obj1.indexPath.row < obj2.indexPath.row;
-            } else {
-                return obj1.indexPath.section < obj2.indexPath.section;
-            }
-        })
-        
-        let sectionInset = (self.collectionView!.delegate as! UICollectionViewDelegateFlowLayout!).collectionView!(self.collectionView!, layout: self, insetForSectionAtIndex: 0);
-        
-        
-        var numberOfLines = 1;
-        var lastIndexPath = NSIndexPath(forRow: 0, inSection: 0);
-        var maxFrameHeght: CGFloat = 20;
-        
-        for (index, attribute) in enumerate(sortedAttributes) {
-            let indexPath = attribute.indexPath;
-            lastIndexPath = indexPath;
-            let currentFrame = attribute.frame;
-            
-            let height = CGRectGetHeight(currentFrame);
-            if height > maxFrameHeght {
-                maxFrameHeght = height;
-            }
-
-            if indexPath.row > 0 {
-                let prevAttributes = sortedAttributes[index - 1];
-                let prevFrame = prevAttributes.frame;
-                if prevFrame.origin.y == currentFrame.origin.y {
-                    let newFrame = CGRectMake(CGRectGetMaxX(prevFrame) + self.tagSpace, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
-                    attribute.frame = newFrame;
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        if let attributes = super.layoutAttributesForElementsInRect(rect) {
+            let sortedAttributes = attributes.sort( { (obj1, obj2) -> Bool in
+                if obj1.indexPath.section == obj2.indexPath.section {
+                    return obj1.indexPath.row < obj2.indexPath.row;
                 } else {
-                    numberOfLines++;
+                    return obj1.indexPath.section < obj2.indexPath.section;
+                }
+            })
+            
+            let sectionInset = (self.collectionView!.delegate as! UICollectionViewDelegateFlowLayout!).collectionView!(self.collectionView!, layout: self, insetForSectionAtIndex: 0);
+            
+            
+            var numberOfLines = 1;
+            var lastIndexPath = NSIndexPath(forRow: 0, inSection: 0);
+            var maxFrameHeght: CGFloat = 20;
+            
+            for (index, attribute) in sortedAttributes.enumerate() {
+                let indexPath = attribute.indexPath;
+                lastIndexPath = indexPath;
+                let currentFrame = attribute.frame;
+                
+                let height = CGRectGetHeight(currentFrame);
+                if height > maxFrameHeght {
+                    maxFrameHeght = height;
+                }
+                
+                if indexPath.row > 0 {
+                    let prevAttributes = sortedAttributes[index - 1];
+                    let prevFrame = prevAttributes.frame;
+                    if prevFrame.origin.y == currentFrame.origin.y {
+                        let newFrame = CGRectMake(CGRectGetMaxX(prevFrame) + self.tagSpace, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
+                        attribute.frame = newFrame;
+                    } else {
+                        numberOfLines++;
+                        let newFrame = CGRectMake(sectionInset.left, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
+                        attribute.frame = newFrame;
+                    }
+                } else {
                     let newFrame = CGRectMake(sectionInset.left, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
                     attribute.frame = newFrame;
                 }
-            } else {
-                let newFrame = CGRectMake(sectionInset.left, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
-                attribute.frame = newFrame;
             }
-        }
-        
-        if numberOfLines <= 1 {
-            if lastIndexPath.row < self.collectionView!.numberOfItemsInSection(0) - 1 {
+            
+            if numberOfLines <= 1 {
+                if lastIndexPath.row < self.collectionView!.numberOfItemsInSection(0) - 1 {
+                    self.collectionViewHeightConstraint.constant = self.calculateMaxFrameHeight(maxFrameHeght);
+                } else {
+                    self.collectionViewHeightConstraint.constant = maxFrameHeght + self.sectionInset.top + self.sectionInset.bottom;
+                }
+            } else {
                 self.collectionViewHeightConstraint.constant = self.calculateMaxFrameHeight(maxFrameHeght);
-            } else {
-                self.collectionViewHeightConstraint.constant = maxFrameHeght + self.sectionInset.top + self.sectionInset.bottom;
             }
-        } else {
-            self.collectionViewHeightConstraint.constant = self.calculateMaxFrameHeight(maxFrameHeght);
+            
+            return sortedAttributes;
+
         }
-        
-        return sortedAttributes;
+        return nil
     }
     
     func calculateMaxFrameHeight(maxFrameHeght: CGFloat) -> CGFloat {

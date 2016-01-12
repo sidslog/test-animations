@@ -16,7 +16,7 @@ struct Arrow {
     
     func arrowPath() -> CGPath {
         // no curve right now
-        var path = CGPathCreateMutable();
+        let path = CGPathCreateMutable();
         CGPathMoveToPoint(path, nil, self.startPoint.x, self.startPoint.y);
         
         
@@ -37,7 +37,7 @@ struct Arrow {
     }
     
     func headPath() -> CGPath {
-        var path = CGPathCreateMutable();
+        let path = CGPathCreateMutable();
         let (end1, end2) = self.arrowEnds();
         CGPathMoveToPoint(path, nil, end1.x, end1.y);
         CGPathAddLineToPoint(path, nil, self.endPoint.x, self.endPoint.y);
@@ -49,27 +49,27 @@ struct Arrow {
     func arrowEnds() -> (CGPoint, CGPoint) {
         
         // no curve right now
-        var x1 = Double(self.startPoint.x)
-        var y1 = Double(self.startPoint.y)
+        let x1 = Double(self.startPoint.x)
+        let y1 = Double(self.startPoint.y)
         
-        var x2 = Double(self.endPoint.x)
-        var y2 = Double(self.endPoint.y)
+        let x2 = Double(self.endPoint.x)
+        let y2 = Double(self.endPoint.y)
 
-        var yDiff = y2 - y1
-        var xDiff = x2 - x1
+        let yDiff = y2 - y1
+        let xDiff = x2 - x1
         
-        var length = sqrt(xDiff * xDiff + yDiff * yDiff)
+        let length = sqrt(xDiff * xDiff + yDiff * yDiff)
         
-        var b = acos(Double((y2 - y1) / length))
+        let b = acos(Double((y2 - y1) / length))
         
-        var t = self.arrowHead.angle - b
-        var l = Double(self.arrowHead.length)
+        let t = self.arrowHead.angle - b
+        let l = Double(self.arrowHead.length)
         
-        var x3 = CGFloat(x2 + l * sin(t))
-        var y3 = CGFloat(y2 - l * cos(t))
+        let x3 = CGFloat(x2 + l * sin(t))
+        let y3 = CGFloat(y2 - l * cos(t))
         
-        var x4 = CGFloat(x2 - l * cos(t))
-        var y4 = CGFloat(x2 + l * sin(t))
+        let x4 = CGFloat(x2 - l * cos(t))
+        let y4 = CGFloat(x2 + l * sin(t))
         
         return (CGPointMake(x3, y3), CGPointMake(x4, y4))
     }
@@ -145,35 +145,35 @@ class ArrowView: UIView {
     
     func addAnimations() {
         
-        var arrowAnimationDuration = 2 * self.animationDuration / 3;
-        var headAnimationDuration = 2 * self.animationDuration / 3;
+        let arrowAnimationDuration = 2 * self.animationDuration / 3;
+        let headAnimationDuration = 2 * self.animationDuration / 3;
         
-        var animation = CABasicAnimation(keyPath: "strokeEnd");
+        let animation = CABasicAnimation(keyPath: "strokeEnd");
         animation.duration = arrowAnimationDuration;
         animation.fromValue = 0;
         animation.toValue = 1;
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn);
         
-        var headHidden = CABasicAnimation(keyPath: "strokeEnd");
+        let headHidden = CABasicAnimation(keyPath: "strokeEnd");
         headHidden.duration = arrowAnimationDuration;
         headHidden.fromValue = 0;
         headHidden.toValue = 0;
         
-        var headAnimationLeft = CABasicAnimation(keyPath: "strokeEnd");
+        let headAnimationLeft = CABasicAnimation(keyPath: "strokeEnd");
         headAnimationLeft.duration = headAnimationDuration;
         headAnimationLeft.fromValue = 0.5;
         headAnimationLeft.toValue = 1;
         headAnimationLeft.beginTime = 2;
         headAnimationLeft.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut);
         
-        var headAnimationRight = CABasicAnimation(keyPath: "strokeStart");
+        let headAnimationRight = CABasicAnimation(keyPath: "strokeStart");
         headAnimationRight.duration = headAnimationDuration;
         headAnimationRight.fromValue = 0.5;
         headAnimationRight.toValue = 0;
         headAnimationRight.beginTime = 2;
         headAnimationRight.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut);
         
-        var animationGroup = CAAnimationGroup();
+        let animationGroup = CAAnimationGroup();
         animationGroup.duration = self.animationDuration;
         animationGroup.animations = [headHidden, headAnimationRight, headAnimationLeft];
         
