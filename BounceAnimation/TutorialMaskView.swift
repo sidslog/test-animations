@@ -8,35 +8,32 @@
 
 import UIKit
 
-let arrowHeight: CGFloat = 30
-let arrowWidth: CGFloat = 30
-
-let maxTextWidth: CGFloat = 200
-let maxTextHeight: CGFloat = 200
-
 class TutorialLightPath: NSObject {
     let path: UIBezierPath!;
     let arrowPath: UIBezierPath!
+    
+    var arrowColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+    var arrowOpacity: Float = 1
     
     init(path: UIBezierPath, arrowPath: UIBezierPath) {
         self.path = path
         self.arrowPath = arrowPath
     }
     
-    convenience init(oval: CGRect, arrowPosition: ViewHighlightArrowPosition) {
+    convenience init(oval: CGRect, arrowPosition: ViewHighlightArrowPosition, arrowWidth: CGFloat, arrowHeight: CGFloat) {
         let path = UIBezierPath(ovalInRect: oval);
-        let arrowPath = arrowPathFromRect(oval, arrowPosition: arrowPosition)
+        let arrowPath = arrowPathFromRect(oval, arrowPosition: arrowPosition, arrowWidth: arrowWidth, arrowHeight: arrowHeight)
         self.init(path: path, arrowPath: arrowPath);
     }
     
-    convenience init(rect: CGRect, arrowPosition: ViewHighlightArrowPosition) {
+    convenience init(rect: CGRect, arrowPosition: ViewHighlightArrowPosition, arrowWidth: CGFloat, arrowHeight: CGFloat) {
         let path = UIBezierPath(rect: rect);
-        let arrowPath = arrowPathFromRect(rect, arrowPosition: arrowPosition)
+        let arrowPath = arrowPathFromRect(rect, arrowPosition: arrowPosition, arrowWidth: arrowWidth, arrowHeight: arrowHeight)
         self.init(path: path, arrowPath: arrowPath);
     }
 }
 
-private func arrowPathFromRect(rect: CGRect, arrowPosition: ViewHighlightArrowPosition) -> UIBezierPath! {
+private func arrowPathFromRect(rect: CGRect, arrowPosition: ViewHighlightArrowPosition, arrowWidth: CGFloat, arrowHeight: CGFloat) -> UIBezierPath! {
     let result = UIBezierPath()
     
     var startPoint: CGPoint
@@ -71,6 +68,8 @@ private func arrowPathFromRect(rect: CGRect, arrowPosition: ViewHighlightArrowPo
 
 class TutorialMaskView: UIView {
     
+    var dimViewColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+    
     var paths = [TutorialLightPath]() {
         didSet {
             self.setNeedsDisplay()
@@ -100,11 +99,9 @@ class TutorialMaskView: UIView {
         
         CGContextAddPath(ctx, path);
         
-        let fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7).CGColor
-        let strokeColor = UIColor(red: 233/255.0, green: 157/255.0, blue: 2/255.0, alpha: 0.5).CGColor
+        let fillColor = self.dimViewColor.CGColor
         
         CGContextSetFillColor(ctx, CGColorGetComponents(fillColor));
-        CGContextSetStrokeColor(ctx, CGColorGetComponents(strokeColor));
         
         CGContextEOFillPath(ctx);
         
@@ -112,23 +109,24 @@ class TutorialMaskView: UIView {
     }
     
     func drawArrows(rect: CGRect) {
-        let ctx = UIGraphicsGetCurrentContext();
-        CGContextSaveGState(ctx);
-        
-        let path = CGPathCreateMutable();
-        
         for lightPath in self.paths {
+            let ctx = UIGraphicsGetCurrentContext();
+            CGContextSaveGState(ctx);
+            
+            let path = CGPathCreateMutable();
+            
             CGPathAddPath(path, nil, lightPath.arrowPath.CGPath);
+            
+            CGContextAddPath(ctx, path);
+            
+            let fillColor = lightPath.arrowColor.colorWithAlphaComponent(CGFloat(lightPath.arrowOpacity)).CGColor
+            CGContextSetFillColor(ctx, CGColorGetComponents(fillColor));
+            
+            CGContextFillPath(ctx)
+            
+            CGContextRestoreGState(ctx)
         }
 
-        CGContextAddPath(ctx, path);
-
-        let fillColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).CGColor
-        CGContextSetFillColor(ctx, CGColorGetComponents(fillColor));
-        
-        CGContextFillPath(ctx)
-        
-        CGContextRestoreGState(ctx)
     }
 
 }

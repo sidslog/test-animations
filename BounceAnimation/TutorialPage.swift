@@ -24,8 +24,12 @@ class ViewHighlight {
     var inset: CGFloat = 10;
     
     var arrowPosition = ViewHighlightArrowPosition.Down
+    var arrowWidth: CGFloat = 20
+    var arrowHeight: CGFloat = 10
     var font = UIFont.systemFontOfSize(UIFont.labelFontSize())
     var textColor = UIColor.blackColor()
+    var bubbleBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+    var opacity: Float = 1
     
     init(view: UIView, highlightType: ViewHighlightType, message: String = "") {
         self.view = view;
@@ -41,7 +45,11 @@ class TutorialPageAnimator: UIViewController {
     // viewsToHighLight must be in view hierarchy with backgroundView
     weak var backgroundView: UIView?
     var viewsToHighlight: [ViewHighlight]!
+    var dimViewColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
     
+    var didSelectHighlightedView: (UIView? -> Void)?
+    var tapRecognizer: UITapGestureRecognizer?
+    var acceptTapsOnlyOnHighlightedViews = false
     
     init(backgroundView: UIView, viewsToHighlight: [ViewHighlight]) {
         self.backgroundView = backgroundView;
@@ -57,7 +65,7 @@ class TutorialPageAnimator: UIViewController {
         super.viewDidLoad()
         self.view.translatesAutoresizingMaskIntoConstraints = false;
         self.view.backgroundColor = UIColor.clearColor();
-        
+        self.addTapRecognizer()
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,7 +89,10 @@ class TutorialPageAnimator: UIViewController {
     }
     
     func dismiss() {
-        
+        self.willMoveToParentViewController(nil)
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
+        self.didMoveToParentViewController(nil)
     }
     
     // MARK: private
@@ -92,10 +103,13 @@ class TutorialPageAnimator: UIViewController {
                 var rect = view.convertRect(view.bounds, toView: self.backgroundView);
                 rect.insetInPlace(dx: -hView.inset, dy: -hView.inset);
                 
-                let textBack = TutorialTextBubble(text: hView.message)
+                let textBack = TutorialTextBubble()
+                textBack.text = hView.message;
                 textBack.font = hView.font
                 textBack.textColor = hView.textColor
-                textBack.attachToSuperView(background, arrowPosition: hView.arrowPosition, rect: rect)
+                textBack.backgroundColor = hView.bubbleBackgroundColor
+                textBack.layer.opacity = hView.opacity
+                textBack.attachToSuperView(background, arrowPosition: hView.arrowPosition, rect: rect, arrowHeight: hView.arrowHeight)
             }
         }
     }
@@ -106,11 +120,15 @@ class TutorialPageAnimator: UIViewController {
             if let view = hView.view {
                 var rect = view.convertRect(view.bounds, toView: self.backgroundView);
                 rect.insetInPlace(dx: -hView.inset, dy: -hView.inset);
+                var lightPath: TutorialLightPath!
                 if hView.highlightType == .Round {
-                    paths.append(TutorialLightPath(oval: rect, arrowPosition: hView.arrowPosition));
+                    lightPath = TutorialLightPath(oval: rect, arrowPosition: hView.arrowPosition, arrowWidth: hView.arrowWidth, arrowHeight:  hView.arrowHeight)
                 } else {
-                    paths.append(TutorialLightPath(rect: rect, arrowPosition: hView.arrowPosition));
+                    lightPath = TutorialLightPath(rect: rect, arrowPosition: hView.arrowPosition, arrowWidth: hView.arrowWidth, arrowHeight:  hView.arrowHeight);
                 }
+                lightPath.arrowOpacity = hView.opacity
+                lightPath.arrowColor = hView.bubbleBackgroundColor;
+                paths.append(lightPath)
             }
         }
         return paths;
@@ -120,6 +138,7 @@ class TutorialPageAnimator: UIViewController {
         let view = TutorialMaskView();
         view.translatesAutoresizingMaskIntoConstraints = false;
         view.backgroundColor = UIColor.clearColor();
+        view.dimViewColor = self.dimViewColor;
         return view;
     }
     
@@ -137,6 +156,35 @@ class TutorialPageAnimator: UIViewController {
         
         self.view.addConstraints(horizontal);
         self.view.addConstraints(vertical);
+    }
+    
+    private func addTapRecognizer() {
+        self.tapRecognizer = UITapGestureRecognizer(target: self, action: "onTap:")
+        self.view.addGestureRecognizer(self.tapRecognizer!)
+    }
+    
+    func onTap(recognizer: UITapGestureRecognizer) {
+        if self.acceptTapsOnlyOnHighlightedViews {
+            let tapPoint = recognizer.locationInView(self.view)
+            for hView in viewsToHighlight {
+                if let view = hView.view {
+                    var rect = view.convertRect(view.bounds, toView: self.view);
+                    rect.insetInPlace(dx: -hView.inset, dy: -hView.inset);
+                    if rect.contains(tapPoint) {
+                        if let closure = self.didSelectHighlightedView {
+                            closure(hView.view)
+                        }
+                        self.dismiss()
+                        return
+                    }
+                }
+            }
+        } else {
+            if let closure = self.didSelectHighlightedView {
+                closure(nil)
+            }
+            self.dismiss()
+        }
     }
     
 }

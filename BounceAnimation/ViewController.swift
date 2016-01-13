@@ -44,8 +44,19 @@ class ViewController: UIViewController {
         let highlight2 = ViewHighlight(view: self.secondToHighlight, highlightType: ViewHighlightType.Round, message: " ahjkfh sdjfhksdf hkjdsfhkshfkdsjhf sdhf ksdhfk ahskdjh asdhaskd ashjkd askjd asdhjsadh sadhsadjsah dhkjdsfhkshfkdsjhf sdhf ksdhfk ahskdjh asdhaskd ashjkd askjd asdhjsadh sadhsadjsah dhkjdsfhkshfkdsjhf sdhf ksdhfk ahskdjh asdhaskd ashjkd askjd asdhjsadh sadhsadjsah d")
         highlight2.arrowPosition = .Down;
         highlight2.inset = 50
+        highlight2.bubbleBackgroundColor = UIColor.redColor()
+        highlight2.font = UIFont.systemFontOfSize(10)
+        highlight2.textColor = UIColor.whiteColor()
+        highlight2.opacity = 1
+        highlight2.arrowWidth = 20
+        highlight2.arrowHeight = 10
         let highlights = [highlight, highlight2];
         let ctrl = TutorialPageAnimator(backgroundView: self.view, viewsToHighlight: highlights);
+        ctrl.dimViewColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.3)
+        ctrl.didSelectHighlightedView = { view in
+            print("1")
+        }
+        ctrl.acceptTapsOnlyOnHighlightedViews = true
         ctrl.present(self);
         
 
@@ -80,10 +91,7 @@ class ViewController: UIViewController {
     
     
     class func attachChild(child: UIViewController, parent: UIViewController) {
-        
-        
         child.willMoveToParentViewController(parent);
-        
         
         parent.view.addSubview(child.view);
         
@@ -98,8 +106,6 @@ class ViewController: UIViewController {
         parent.addChildViewController(child);
         
         child.didMoveToParentViewController(parent);
-        
-        
     }
     
 

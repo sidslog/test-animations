@@ -30,10 +30,9 @@ class TutorialTextBubble: UIView {
         }
     }
 
-    init(text: String) {
+    init() {
         super.init(frame: CGRectZero)
         
-        self.backgroundColor = UIColor.whiteColor()
         self.translatesAutoresizingMaskIntoConstraints = false
         self.layer.cornerRadius = 6;
         self.layer.masksToBounds = true
@@ -60,12 +59,11 @@ class TutorialTextBubble: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func attachToSuperView(background: UIView, arrowPosition: ViewHighlightArrowPosition, rect: CGRect) {
+    func attachToSuperView(background: UIView, arrowPosition: ViewHighlightArrowPosition, rect: CGRect, arrowHeight: CGFloat) {
         
         background.addSubview(self)
         
         var constraints: [NSLayoutConstraint]
-        
         
         switch arrowPosition {
         case .Down:
